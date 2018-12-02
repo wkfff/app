@@ -1,27 +1,29 @@
 <template>
-   <div class="main">
-       <div class="header base">首页</div>
+    <div class="main">
+        <div class="header base">首页</div>
         <v-nav></v-nav>
-   </div>
+        <router-link to="/snack">外卖</router-link>
+    </div>
 </template>
 
 <script type="text/ecmascript-6">
-import VNav from "@/pages/common/v-nav"
-import "@/assets/css/main.styl"
-export default {
-   name: '',
-   data() {
-       return {}
-   },
-  components: {
-      VNav,
-  }
-}
+    import VNav from "@/pages/common/v-nav"
+    import "@/assets/css/main.styl"
+    export default {
+        name: '',
+        data() {
+            return {}
+        },
+        components: {
+            VNav,
+        }
+    }
+
 </script>
 
 <style scoped lang="stylus">
-    .header
+    .header {
         background-color cyan
+    }
 
 </style>
-
