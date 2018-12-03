@@ -1,14 +1,14 @@
 <template>
     <div class="car-wrapper">
-        <div class="fixed-con" @click="ani">
+        <div class="fixed-con" @click="_ani">
             <div class="fun-icon">
                 <span>{{totalCount}}</span>
             </div>
             <div class="total-price">总价: ￥{{totalPrice}}</div>
             <div class="go-fixed">{{descInfo}}</div>
         </div>
-        <transition>
-            <div class="add-con">
+        <transition name="move">
+            <div class="add-con" v-show="isShow">
                 <div class="title">
                     <div>购物车</div>
                     <div>清空</div>
@@ -17,12 +17,15 @@
                     <ul>
                         <li v-for="(item, index) in selectedGoods" :key="index">
                             <div class="name">{{item.name}}</div>
-                            <div class="price">{{item.price * item.count}}</div>
+                            <div class="price">价格: ￥{{item.price * item.count}}元</div>
                             <div class="num">加减操作</div>
                         </li>
                     </ul>
                 </div>
             </div>
+        </transition>
+        <transition name="gradient">
+            <div class="cover" v-show="isShow" @click="_ani"></div>
         </transition>
     </div>
 </template>
@@ -88,10 +91,16 @@ export default {
     },
     data() {
         return {
-            minPrice: 20
+            minPrice: 20,
+            isShow: false
         };
     },
-    components: {}
+    components: {},
+    methods: {
+        _ani() {
+            this.isShow = !this.isShow;
+        }
+    }
 };
 </script>
 
@@ -110,7 +119,7 @@ export default {
     justify-content space-between
     align-items center
     padding 0.2rem
-    z-index 10
+    z-index 100
     .fun-icon
         position relative
         width 0.8rem
@@ -139,7 +148,7 @@ export default {
     bottom 1.2rem
     left 0
     width 100%
-    z-index 100
+    z-index 50
     background-color #fff
     .title
         display flex
@@ -158,9 +167,27 @@ export default {
             padding 0 0.2rem
             border-bottom 1px solid #eee
             div
+                width 25%
                 height 0.6rem
                 line-height 0.6rem
                 color #000
                 text-align center
                 font-size 0.25rem
+.move-enter-active, .move-leave-active
+    transition all 0.5s
+.move-enter, .move-leave-to
+    transform translate3d(0, 100%, 0)
+.cover
+    position fixed
+    top 0
+    left 0
+    right 0
+    bottom 0
+    z-index 10
+    background-color #000
+    opacity 0.7
+.gradient-enter-active, .gradient-leave-active
+    transition all 0.5s
+.gradient-enter, .gradient-leave-to
+    opacity 0
 </style>
