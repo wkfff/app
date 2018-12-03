@@ -12,18 +12,18 @@ export default {
    name: '',
    data() {
        return {
-           degree: ''
+           degree: '0'
        }
    },
   components: {},
   created(){
-      axios.get('http://localhost/api/getData.php',{
-          params: {
-              title: '光学眼镜'
-          }
-      }).then((res)=>{
-          this.degree = res.data[0].tit;
-      })
+    //   axios.get('http://localhost/api/getData.php',{
+    //       params: {
+    //           title: '光学眼镜'
+    //       }
+    //   }).then((res)=>{
+    //       this.degree = res.data[0].tit;
+    //   })
   }
 }
 </script>

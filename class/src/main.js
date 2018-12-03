@@ -8,6 +8,7 @@ import '@/assets/js/base.js'
 // Vue.config.productionTip = false
 
 /* eslint-disable no-new */
+window.Bus = new Vue()
 new Vue({
   el: '#app',
   router,

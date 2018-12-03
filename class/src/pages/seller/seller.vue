@@ -50,6 +50,8 @@ export default {
       var localData = res.data;
       if (localData.errno == 0){
         this.seller = localData.data
+        // 用总线给ShopCar组件传递seller数据
+        Bus.$emit("send",this.seller.minPrice)
       }
     })
     // 编程式导航
