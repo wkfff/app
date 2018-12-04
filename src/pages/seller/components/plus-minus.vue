@@ -58,7 +58,10 @@ export default {
             // 如果减到0
             if (!this.food.count) {
                 this.isShow = false;
-                this.selectedGoods.splice(this.index - 1, 1);
+                this.selectedGoods.splice(this.index, 1, {
+                    price: 0,
+                    count: 0
+                });
             }
         }
     },

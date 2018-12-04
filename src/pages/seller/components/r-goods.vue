@@ -16,7 +16,7 @@
                     <h4>{{item.name}}</h4>
                     <ul>
                         <li v-for="(food, index) in item.foods" :key="index">
-                            <!-- <img :src="food.image" alt> -->
+                            <img :src="food.image" alt>
                             <div>
                                 <h5>名称: {{food.name}}</h5>
                                 <div class="con-panel">
