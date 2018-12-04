@@ -16,17 +16,20 @@
                     <h4>{{item.name}}</h4>
                     <ul>
                         <li v-for="(food, index) in item.foods" :key="index">
-                            <img :src="food.image" alt>
+                            <!-- <img :src="food.image" alt> -->
                             <div>
                                 <h5>名称: {{food.name}}</h5>
-                                <p>价格: {{food.price}}</p>
+                                <div class="con-panel">
+                                    <div>价格: {{food.price}}</div>
+                                    <plus-minus :food="food" :selectedGoods="selectedGoods"></plus-minus>
+                                </div>
                             </div>
                         </li>
                     </ul>
                 </li>
             </ul>
         </div>
-        <shop-car></shop-car>
+        <shop-car :selectedGoods="selectedGoods"></shop-car>
     </div>
 </template>
 
@@ -34,6 +37,7 @@
 import axios from "axios";
 import BScroll from "better-scroll";
 import ShopCar from "./shop-car";
+import PlusMinus from "./plus-minus";
 
 export default {
     name: "",
@@ -41,16 +45,23 @@ export default {
         return {
             list: [],
             foodSort: [0],
-            scrollY: 0
+            scrollY: 0,
+            selectedGoods: []
         };
     },
     components: {
-        ShopCar
+        ShopCar,
+        PlusMinus
     },
     created() {
         axios.get("/api/goods").then(res => {
             if (res.data.errno == 0) {
                 this.list = res.data.data;
+                this.list.forEach(el => {
+                    el.foods.forEach(ele => {
+                        this.$set(ele, "count", 0);
+                    });
+                });
                 this.$nextTick(() => {
                     this._initScroll();
                     this._calculate();
@@ -65,7 +76,8 @@ export default {
                 click: true
             });
             this.foodsList = new BScroll(this.$refs.foodsList, {
-                probeType: 3
+                probeType: 3,
+                click: true
             });
             this.foodsList.on("scroll", pos => {
                 this.scrollY = Math.abs(Math.round(pos.y));
@@ -161,4 +173,11 @@ export default {
                             display flex
                             flex-direction column
                             justify-content space-around
+                            .con-panel
+                                display flex
+                                flex-direction row
+                                align-items center
+                                justify-content space-between
+                                .panel
+                                    display block
 </style>

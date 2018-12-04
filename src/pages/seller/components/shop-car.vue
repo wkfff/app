@@ -11,14 +11,16 @@
             <div class="add-con" v-show="isShow">
                 <div class="title">
                     <div>购物车</div>
-                    <div>清空</div>
+                    <div @click="_clearAll">清空</div>
                 </div>
                 <div class="add-column">
-                    <ul>
-                        <li v-for="(item, index) in selectedGoods" :key="index">
+                    <ul v-if="selectedGoods.length">
+                        <li v-for="(item, index) in selectedGoods" :key="index" v-if="item.count">
                             <div class="name">{{item.name}}</div>
                             <div class="price">价格: ￥{{item.price * item.count}}元</div>
-                            <div class="num">加减操作</div>
+                            <div class="num">
+                                <plus-minus :food="item" :selectedGoods="selectedGoods"></plus-minus>
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -31,6 +33,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+import PlusMinus from "./plus-minus";
 export default {
     name: "",
     props: {
@@ -95,10 +98,19 @@ export default {
             isShow: false
         };
     },
-    components: {},
+    components: {
+        PlusMinus
+    },
     methods: {
         _ani() {
             this.isShow = !this.isShow;
+        },
+        _clearAll() {
+            for (let i = this.selectedGoods.length - 1; i >= 0; i--) {
+                this.selectedGoods[i].count = 0;
+                this.selectedGoods.splice(i, 1);
+            }
+            this._ani();
         }
     }
 };
@@ -158,7 +170,7 @@ export default {
         div
             height 0.8rem
             line-height 0.8rem
-            color cyan
+            color darkcyan
             font-size 0.3rem
     .add-column
         ul li
@@ -173,6 +185,9 @@ export default {
                 color #000
                 text-align center
                 font-size 0.25rem
+                &.num div
+                    width 100%
+                    align-items center
 .move-enter-active, .move-leave-active
     transition all 0.5s
 .move-enter, .move-leave-to
