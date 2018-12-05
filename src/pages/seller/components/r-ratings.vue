@@ -11,6 +11,11 @@
                 </div>
             </div>
             <blank></blank>
+            <div class="router-wrapper">
+                <router-link to="/">全部</router-link>
+                <router-link to="/">满意</router-link>
+                <router-link to="/">不满意</router-link>
+            </div>
             <div class="ratings">
                 <ul v-if="ratingsCon.length">
                     <li v-for="(item, index) in ratingsCon" :key="index">
@@ -57,7 +62,9 @@ export default {
                 this.ratingsCon = res.data.data;
             }
             this.$nextTick(() => {
-                this.ratingsScroll = new BScroll(this.$refs.ratingsWrapper);
+                this.ratingsScroll = new BScroll(this.$refs.ratingsWrapper, {
+                    mouseWheel: true
+                });
             });
         });
     }
@@ -78,6 +85,7 @@ export default {
             justify-content space-around
             height 1.6rem
             line-height 0.8rem
+            margin 0 0.2rem
             border-radius 10px
             border 1px solid #ddd
         .detail
