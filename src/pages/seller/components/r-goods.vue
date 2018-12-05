@@ -1,7 +1,7 @@
 <template>
     <div class="goods">
         <div class="sort" ref="sort">
-            <ul v-if="list.length">
+            <ul v-if="list.length" ref="test">
                 <li
                     v-for="(item, index) in list"
                     :key="index"
