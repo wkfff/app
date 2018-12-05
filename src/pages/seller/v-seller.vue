@@ -31,7 +31,7 @@ export default {
     created() {
         // 编程式导航   模板编译之前指定路由导航
         this.$router.push({
-            path: "/seller/r-goods"
+            path: "/seller/r-ratings"
         });
     }
 };

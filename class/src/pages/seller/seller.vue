@@ -4,10 +4,13 @@
             <p class="avatar"><img :src="seller.avatar" alt=""></p>
             <p>商家名称：{{seller.name}}</p>
             <p>{{seller.description}}/派送时间:{{seller.deliveryTime}}</p>
+            <p v-if="seller.supports"><supports :classType="seller.supports[0].type"></supports></p>
+            <!-- <p><star :size='48' :score="2.6"></star></p> -->
        </div>
        <div class="nav">
          <router-link to="/seller/goods">商品</router-link>
-         <router-link to="/seller/ratings">评论</router-link>
+         <!-- :to="{name: 'demo', query:{id: 4}}" -->
+         <router-link :to="{name:'Ratings',query:{seller: seller}}">评论</router-link>
          <router-link to="/seller/sellerdesc">商家</router-link>
        </div>
        <router-view></router-view>
@@ -20,6 +23,9 @@
 <script type="text/ecmascript-6">
 import axios from 'axios'
 import Mask1 from './components/mask'
+import Supports from './components/supports'
+import Star from './components/star'
+
 export default {
    name: '',
    data() {
@@ -29,7 +35,9 @@ export default {
        }
    },
   components: {
-    Mask1
+    Mask1,
+    Supports,
+    Star
   },
   methods: {
     handlebox(){

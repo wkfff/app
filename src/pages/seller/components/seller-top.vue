@@ -1,17 +1,23 @@
 <template>
     <div class="seller-top clearfix" @click="showInfo">
-        <img :src="list.avatar" alt>
+        <!-- <img :src="list.avatar" alt> -->
         <div class="header-info">
             <h3>{{list.name}}</h3>
             <p>蜂鸟专送/{{list.deliveryTime}}分钟送达</p>
+            <p>
+                <supports v-if="list.supports" :classIndex="list.supports[0].type"></supports>
+            </p>
         </div>
-        <div class="info-wrapper" @click.stop="showInfo" v-show="isShow">详细信息</div>
+        <div class="info-wrapper" @click.stop="showInfo" v-show="isShow">
+            <star :score="list.score" :size="48"></star>
+        </div>
     </div>
 </template>
 
 <script type="text/ecmascript-6">
 import axios from "axios";
-
+import Supports from "./supports";
+import Star from "./star";
 export default {
     name: "",
     data() {
@@ -25,7 +31,10 @@ export default {
             this.isShow = !this.isShow;
         }
     },
-    components: {},
+    components: {
+        Supports,
+        Star
+    },
     created() {
         axios.get("/api/seller").then(res => {
             if (!res.data.errno) {

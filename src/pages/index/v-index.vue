@@ -7,23 +7,20 @@
 </template>
 
 <script type="text/ecmascript-6">
-    import VNav from "@/pages/common/v-nav"
-    import "@/assets/css/main.styl"
-    export default {
-        name: '',
-        data() {
-            return {}
-        },
-        components: {
-            VNav,
-        }
+import VNav from "@/pages/common/v-nav";
+import "@/assets/css/main.styl";
+export default {
+    name: "",
+    data() {
+        return {};
+    },
+    components: {
+        VNav
     }
-
+};
 </script>
 
 <style scoped lang="stylus">
-    .header {
-        background-color cyan
-    }
-
+.header
+    background-color cyan
 </style>

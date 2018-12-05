@@ -7,6 +7,7 @@
                     :key="index"
                     :class="calcIndex == index ? 'active' : ''"
                     @click="_scrllTo(index)"
+                    ref="menuList"
                 >{{item.name}}</li>
             </ul>
         </div>
@@ -16,7 +17,7 @@
                     <h4>{{item.name}}</h4>
                     <ul>
                         <li v-for="(food, index) in item.foods" :key="index">
-                            <img :src="food.image" alt>
+                            <!-- <img :src="food.image" alt> -->
                             <div>
                                 <h5>名称: {{food.name}}</h5>
                                 <div class="con-panel">
@@ -72,13 +73,14 @@ export default {
     methods: {
         // 初始化滚动插件
         _initScroll() {
-            let sort = new BScroll(this.$refs.sort, {
+            this.sort = new BScroll(this.$refs.sort, {
                 click: true
             });
             this.foodsList = new BScroll(this.$refs.foodsList, {
                 probeType: 3,
                 click: true
             });
+            // let allLi = this.$refs.sort.children[0].children;
             this.foodsList.on("scroll", pos => {
                 this.scrollY = Math.abs(Math.round(pos.y));
             });
@@ -92,6 +94,11 @@ export default {
         },
         _scrllTo(index) {
             this.foodsList.scrollToElement(this.$refs.foodSort[index], 300);
+        },
+        _initLeftScroll(index) {
+            let menu = this.$refs.menuList;
+            let el = menu[index];
+            this.sort.scrollToElement(el, 300, 0, -300);
         }
     },
     computed: {
@@ -104,12 +111,14 @@ export default {
                     this.scrollY < this.foodSort[i + 1]
                 ) {
                     cur = i;
+                    this._initLeftScroll(cur);
                     break;
                 }
             }
             if (this.scrollY >= 1700) {
                 cur = this.foodSort.length - 2;
             }
+
             return cur;
         }
     }
