@@ -1,7 +1,7 @@
 <template>
-    <div class="goods">
+    <div class="goods" ref="test">
         <div class="sort" ref="sort">
-            <ul v-if="list.length" ref="test">
+            <ul v-if="list.length">
                 <li
                     v-for="(item, index) in list"
                     :key="index"
@@ -99,6 +99,8 @@ export default {
             let menu = this.$refs.menuList;
             let el = menu[index];
             this.sort.scrollToElement(el, 300, 0, -300);
+            console.log(this.$refs.foodsList.scrollTop);
+            console.log(this.$refs.test.scrollTop);
         }
     },
     computed: {
@@ -155,7 +157,7 @@ export default {
                     color #fff
     .foods-list
         flex 1
-        overflow hidden
+        overflow auto
         ul
             li
                 padding-bottom 0.2rem

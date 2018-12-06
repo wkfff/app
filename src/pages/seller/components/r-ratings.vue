@@ -11,14 +11,11 @@
                 </div>
             </div>
             <blank></blank>
-            <div class="router-wrapper">
-                <router-link to="/">全部</router-link>
-                <router-link to="/">满意</router-link>
-                <router-link to="/">不满意</router-link>
-            </div>
+            <ratings-select @changetype="_changeType" :type="type" :ratingscon="ratingsCon"></ratings-select>
+            <blank></blank>
             <div class="ratings">
                 <ul v-if="ratingsCon.length">
-                    <li v-for="(item, index) in ratingsCon" :key="index">
+                    <li v-for="(item, index) in filterData" :key="index">
                         <div class="left">
                             <img :src="item.avatar" alt>
                         </div>
@@ -39,17 +36,47 @@ import axios from "axios";
 import Star from "./star";
 import Blank from "./blank";
 import BScroll from "better-scroll";
+import RatingsSelect from "./ratings-select";
 export default {
     name: "",
     data() {
         return {
             sellerInfo: {},
-            ratingsCon: []
+            ratingsCon: [],
+            filterData: [],
+            type: [
+                {
+                    typeDesc: "全部",
+                    typeCode: 2
+                },
+                {
+                    typeDesc: "满意",
+                    typeCode: 0
+                },
+                {
+                    typeDesc: "不满意",
+                    typeCode: 1
+                }
+            ]
         };
     },
     components: {
         Star,
-        Blank
+        Blank,
+        RatingsSelect
+    },
+    methods: {
+        _changeType(type) {
+            if (type == 2) {
+                this.filterData = this.ratingsCon;
+            } else {
+                this.filterData = this.ratingsCon.filter(el => {
+                    if (el.rateType == type) {
+                        return el;
+                    }
+                });
+            }
+        }
     },
     created() {
         axios.get("/api/seller").then(res => {
@@ -59,11 +86,12 @@ export default {
         });
         axios.get("/api/ratings").then(res => {
             if (res.data.errno == 0) {
-                this.ratingsCon = res.data.data;
+                this.filterData = this.ratingsCon = res.data.data;
             }
             this.$nextTick(() => {
                 this.ratingsScroll = new BScroll(this.$refs.ratingsWrapper, {
-                    mouseWheel: true
+                    mouseWheel: true,
+                    click: true
                 });
             });
         });

@@ -1,6 +1,6 @@
 <template>
     <div class="seller-top clearfix" @click="showInfo">
-        <!-- <img :src="list.avatar" alt> -->
+        <img :src="list.avatar" alt>
         <div class="header-info">
             <h3>{{list.name}}</h3>
             <p>蜂鸟专送/{{list.deliveryTime}}分钟送达</p>

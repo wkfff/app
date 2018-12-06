@@ -9,14 +9,15 @@
             <split></split>
             <div class="user-ratings">
                 <!-- 用户评价过滤组件 select -->
-                <ratings-select></ratings-select>
+                <ratings-select :ratings="ratings"  :optiondesc="optionDesc" @change="_handlerData"></ratings-select>
                 <!-- 符合过滤条件的用户评价 -->
                 <div class="ratings">
                     <ul v-if="ratings.length">
-                        <li v-for="(item,index) in ratings" :key="index">
+                        <li v-for="(item,index) in filterData" :key="index">
                             <p>用户名：{{item.username}}</p>
-                            <p>发布时间：{{item.rateTime}}</p>
+                            <p>发布时间：{{item.rateTime | formatDate}}</p>
                             <p>评论内容：{{item.text}}</p>
+                            <p>评分：{{item.score}}</p>
                         </li>
                     </ul>
                 </div>
@@ -28,6 +29,7 @@
 
 <script type="text/ecmascript-6">
 import BScroll from 'better-scroll'
+import {formatDate} from '@/assets/js/util'
 import axios from 'axios'
 import Star from './star'
 import Split from './split'
@@ -37,7 +39,22 @@ export default {
    data() {
        return {
            curSeller: {},
-           ratings:[]
+           ratings:[],
+           selectType: 2 ,// 全部
+           optionDesc: [
+                {
+                    desc: '全部',
+                    type: 2
+                },
+                {
+                    desc: '满意',
+                    type: 0
+                },
+                {
+                    desc: '不满意',
+                    type: 1
+                }
+           ]
        }
    },
   components: {
@@ -67,7 +84,31 @@ export default {
         this.ratingsScroll = new BScroll(this.$refs.ratingsWrapper,{
             click: true
         });
+    },
+    _handlerData(type){
+        this.selectType = type  //0
     }
+  },
+  computed: {
+      filterData(){
+          if (this.selectType == 2){
+              return this.ratings
+          }else{
+              return this.ratings.filter((el)=>{
+                  if(this.selectType == el.rateType){
+                      return true
+                  }else{
+                      return false
+                  }
+              })
+          }
+      }
+  },
+  filters: {
+      formatDate(time){
+        let date = new Date(time);
+        return formatDate(date, 'yyyy-MM-dd hh:mm');
+      }
   }
 
 }
